@@ -1,0 +1,3 @@
+effect_bundle_key	effect_key	effect_scope	value	advancement_stage
+#effect_bundles_to_effects_junctions_tables;3;db/effect_bundles_to_effects_junctions_tables/kafka_vanguard				
+kafka_vanguard	wh_main_effect_attribute_enable_vanguard_deployment	force_to_force_own	1.0000	start_turn_completed
