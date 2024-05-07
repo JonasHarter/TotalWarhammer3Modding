@@ -1,6 +1,6 @@
-$rpfmPath = "D:\Projects\TotalWarhammer3Modding\_RustPackFileManager\rpfm_cli.exe"
+$rpfmPath = "..\_RustPackFileManager\rpfm_cli.exe"
 # \AppData\Roaming\FrodoWazEre\rpfm\config\schemas\schema_wh3.ron
-$tw3Schema = "D:\Projects\TotalWarhammer3Modding\TotalWarhammer3Modding\schema_wh3.ron"
+$tw3Schema = ".\schema_wh3.ron"
 $files = Get-ChildItem ".\"
 foreach ($f in $files) {
     $folderNameFull = $f.FullName
