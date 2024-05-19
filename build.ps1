@@ -6,9 +6,13 @@ foreach ($f in $files) {
     # Work per folder
     $folderNameFull = $f.FullName
     $folderName = $f.Name
+    $importFolderName = "$folderNameFull\pack"
     $folderObject = get-item $folderNameFull
     if(!$folderObject.PSIsContainer) {
-        break
+        continue
+    }
+    if(!(Test-Path $importFolderName)) {
+        continue
     }
     $folderName
     # Run buildscript
@@ -20,8 +24,9 @@ foreach ($f in $files) {
     }
     # Generate pack file
     $packFileName = "$folderNameFull\kafka_$folderName.pack"
-    $importFolderName = "$folderNameFull\pack"
-    Remove-Item -Path $packFileName
+    if(Test-Path $packFileName) {
+        Remove-Item -Path $packFileName
+    }
     & $rpfmPath --game warhammer_3 pack create -p $packFileName
     & $rpfmPath --game warhammer_3 pack add -F $importFolderName -p $packFileName -t $tw3Schema
     if(Test-Path $generationScript -PathType Leaf)
