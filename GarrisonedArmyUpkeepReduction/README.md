@@ -1,5 +1,6 @@
 # Garrisoned Army Upkeep Reduction
 
-stacking reduction when in city,  quickly lost on leave
-nor for hordes and ogres?
-config via mct
+Garrisoned armies in settlements gain reduced upkeep.
+The reduction builds up per turn up to maximum, but is quickly lost when the army leaves the settlement.
+Deactivated per default for the ai.
+Configurable via MCT.

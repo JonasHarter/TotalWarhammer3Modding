@@ -22,16 +22,16 @@ option_lower_bound:set_default_value(80);
 local option_lower_bound = mct_mod:add_new_option("step_size_increase", "slider");
 option_lower_bound:set_text("Increase step size");
 option_lower_bound:set_tooltip_text("The amount of upkeep reduction a garrisoned army gains per turn.");
-option_lower_bound:slider_set_min_max(10, 100);
-option_lower_bound:slider_set_step_size(10);
+option_lower_bound:slider_set_min_max(0, 100);
+option_lower_bound:slider_set_step_size(5);
 option_lower_bound:set_default_value(10);
 
 local option_lower_bound = mct_mod:add_new_option("step_size_decrease", "slider");
 option_lower_bound:set_text("Decrease step size");
 option_lower_bound:set_tooltip_text("The amount of upkeep reduction an ungarrisoned army looses per turn.");
-option_lower_bound:slider_set_min_max(10, 100);
-option_lower_bound:slider_set_step_size(10);
-option_lower_bound:set_default_value(20);
+option_lower_bound:slider_set_min_max(5, 100);
+option_lower_bound:slider_set_step_size(5);
+option_lower_bound:set_default_value(40);
 
 local option_apply_to_ai = mct_mod:add_new_option("apply_to_ai", "checkbox");
 option_apply_to_ai:set_text("Applies to ai");

@@ -3,7 +3,7 @@ local kafka_garrisoned_army_upkeep = {};
 local settings = {
 	upper_bound = 80,
 	step_size_increase = 10,
-	step_size_decrease = 20,
+	step_size_decrease = 40,
 	apply_to_ai = false
 }
 
@@ -45,20 +45,18 @@ function kafka_garrisoned_army_upkeep:updateSettings()
 end
 
 core:add_listener(
-	"kafka_garrisoned_army_upkeep",
+	"kafka_garrisoned_army_upkeep_turn_start",
 	"FactionTurnStart",
 	true,
 	function(context)
-		out("Kafka-run")	
 		if not settings.apply_to_ai and not context:faction():is_human() then
 			return
 		end
-		--- local forcesList = context:faction():military_force_list()
+		--- Upkeep reduction is positive in config, but negative in db
 		local characters = context:faction():character_list();
 		for i = 0, characters:num_items() - 1 do
 			local character = characters:item_at(i);
 		  	if cm:char_is_mobile_general_with_army(character) then
-				out("Kafka-run-2")	
 				--- Check for garrison status
 				local force = character:military_force()
 				local valueMod = settings.step_size_increase
@@ -66,16 +64,14 @@ core:add_listener(
 				if not forceIsInGarrison then
 					valueMod = -1 * settings.step_size_decrease
 				end
-				out("valueMod " .. valueMod)
-				--- Read effect bundle value
+				--- Read current value
 				local effectValueOld = 0
 				local effectBundleOld = kafka_garrisoned_army_upkeep:getEffectBundle(force)
 				if effectBundleOld then
 					local effectOld = kafka_garrisoned_army_upkeep:getEffect(effectBundleOld)
 					effectValueOld = effectOld:value()
 				end
-				out("effectValueOld " .. effectValueOld)
-				--- Adjust value and apply
+				--- Adjust value
 				local effectValueNew = -1 * effectValueOld
 				local effectValueNew = effectValueNew + valueMod
 				if effectValueNew > settings.upper_bound then
@@ -85,12 +81,11 @@ core:add_listener(
 					effectValueNew = 0
 				end
 				effectValueNew = -1 * effectValueNew
-				out("effectValueNew " .. effectValueNew)
-				local effectBundleNew = cm:create_new_custom_effect_bundle("kafka_garrisoned_army_upkeep")
+				--- Apply anew
+				local effectBundleNew = cm:create_new_custom_effect_bundle("kafka_garrisoned_army_upkeep_bundle")
 				local effectNew = kafka_garrisoned_army_upkeep:getEffect(effectBundleNew)
 				effectBundleNew:set_effect_value(effectNew, effectValueNew)
 				cm:apply_custom_effect_bundle_to_force(effectBundleNew, force)
-				out("Kafka-done")
 			end
 		end
 	end,
@@ -101,7 +96,7 @@ function kafka_garrisoned_army_upkeep:getEffectBundle(force)
 	local effectBundleList = force:effect_bundles()
 	for i = 0, effectBundleList:num_items() - 1 do
 		local effectBundle = effectBundleList:item_at(i)
-		if effectBundle:key() == "kafka_garrisoned_army_upkeep" then
+		if effectBundle:key() == "kafka_garrisoned_army_upkeep_bundle" then
 			return effectBundle
 		end
 	end
@@ -112,7 +107,7 @@ function kafka_garrisoned_army_upkeep:getEffect(effectBundle)
 	local effectsList = effectBundle:effects()
 	for i = 0, effectsList:num_items() - 1 do
 		local effect = effectsList:item_at(i)
-		if effect:key() == "kafka_garrisoned_army_upkeep" then
+		if effect:key() == "kafka_garrisoned_army_upkeep_effect" then
 			return effect
 		end
 	end
