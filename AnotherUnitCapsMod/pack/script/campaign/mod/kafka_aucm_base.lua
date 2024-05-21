@@ -17,7 +17,20 @@ end
 -- Calculates the cost for the unit
 function aucm:getUnitCost(unit)
 	-- TODO check for free unit
-	return math.floor(unit:get_unit_custom_battle_cost() / aucm:getConfig("mpcost_per_point"))
+	local cost = unit:get_unit_custom_battle_cost()
+	return aucm:calculateCost(cost)
+end
+
+-- Calculates the cost for the unit 
+function aucm:getUnitCostFromKey(unitKey)
+	-- TODO check for free unit
+	local cost = cco("CcoMainUnitRecord", unitKey):Call("Cost");
+	return aucm:calculateCost(cost)
+end
+
+-- Calculates the cost via the base mp cost
+function aucm:calculateCost(cost)
+	return math.floor(cost / aucm:getConfig("mpcost_per_point"))
 end
 
 -- Calculates the hero count for the unit
@@ -73,6 +86,7 @@ function aucm:getArmyHeroCount(character)
 	return heroCount;
 end
 
+-- Calculates the cost of units in a garrison
 function aucm:getGarrisonCost(cqi)
 	local garrison_cost = 0;
 	local unit_list = cm:get_military_force_by_cqi(cqi):unit_list();
@@ -82,3 +96,38 @@ function aucm:getGarrisonCost(cqi)
 
 	return garrison_cost;
 end
+
+-- Calculates the cost of the unit in the recruitment queue of the army
+function aucm:getArmyQueuedUnitsCost()
+	-- Fetches all the data from the ui
+	local army = find_uicomponent_from_table(core:get_ui_root(), {"units_panel", "main_units_panel", "units"})
+	if not army then
+		return
+	end
+
+	local queuedUnitsCost = 0;
+	for i = 0, army:ChildCount() - 1 do
+		local unitCard = UIComponent(army:Find(i));
+		if unitCard:Id():find("Queued") or unitCard:Id():find("temp_merc") then
+			queuedUnitsCost = queuedUnitsCost + aucm:getUnitCostFromUnitCard(unitCard);
+		end
+	end
+
+	return queuedUnitsCost;
+end
+
+-- Reads the unit's cost from the unit card
+function aucm:getUnitCostFromUnitCard(unit_card)
+	local unitCost = 0;
+
+	unit_card:SimulateMouseOn();
+	local ok, err = pcall(function()
+		local unitInfo = find_uicomponent(core:get_ui_root(), "hud_campaign", "unit_information_parent", "unit_info_panel_holder_parent", "unit_info_panel_holder");
+		local unitKey = string.gsub(string.gsub(unitInfo:GetContextObjectId("CcoUnitDetails"), "RecruitmentUnit_", ""), "_%d+_%d+_%d+_%d+$", "");
+		unitCost = aucm:getUnitCostFromKey(unitKey);
+	end);
+	unit_card:SimulateMouseOff();
+
+	return unitCost;
+end
+

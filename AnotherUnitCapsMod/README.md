@@ -32,3 +32,5 @@ garrison tooltip
 
 todo
 	garrison cost in top name button or individual settlements name buttons
+	show unit cost somewhere in recruitmentScreen
+	how stable is recruiting units cost?
