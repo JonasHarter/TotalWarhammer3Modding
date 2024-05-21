@@ -4,27 +4,12 @@ local aucm = core:get_static_object("aucm");
 core:add_listener(
 	"kafka_aucm_setArmyCostTooltip",
 	"CharacterSelected", 
-	function(context)
-		return context:character():has_military_force();
-	end,
+	true,
 	function(context)
 		local character = context:character();
-		cm:set_saved_value("aucm_last_selected_char_cqi", character:command_queue_index());
 		cm:callback(function()
 			aucm:setArmyCostToolTip(character);
 		end, 0.1)
-	end,
-	true);
-
--- Clear army cost tooltip before set
-core:add_listener(
-	"kafka_aucm_cleanArmyCostTooltip",
-	"CharacterSelected", 
-	function(context)
-		return not context:character():has_military_force();
-	end, 
-	function()
-		cm:set_saved_value("aucm_last_selected_char_cqi", "");
 	end,
 	true);
 
@@ -35,11 +20,12 @@ function aucm:setArmyCostToolTip(character)
 		return;
 	end
 
-	local armyCost = aucm:getArmyCost(character);
-	local armyLimit = aucm:getArmyLimit(character);
-	local tt_text = armyCost .. "/" .. armyLimit
-
+	local tt_text = ""
+	if character:has_military_force() then
+		local armyCost = aucm:getArmyCost(character);
+		local armyLimit = aucm:getArmyLimit(character);
+		tt_text = "Army: " .. armyCost .. "/" .. armyLimit
+	end
 	-- TODO check if army should be affected
-
 	zoom_component:SetTooltipText(tt_text, true);
 end

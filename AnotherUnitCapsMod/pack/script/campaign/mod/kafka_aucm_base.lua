@@ -72,3 +72,13 @@ function aucm:getArmyHeroCount(character)
 
 	return heroCount;
 end
+
+function aucm:getGarrisonCost(cqi)
+	local garrison_cost = 0;
+	local unit_list = cm:get_military_force_by_cqi(cqi):unit_list();
+	for i = 0, unit_list:num_items() - 1 do
+		garrison_cost = garrison_cost + aucm:getUnitCost(unit_list:item_at(i));
+	end
+
+	return garrison_cost;
+end

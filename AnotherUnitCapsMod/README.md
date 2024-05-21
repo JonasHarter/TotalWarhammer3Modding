@@ -1,5 +1,8 @@
 # Another Unit Caps Mod
 
+some solution for ogre camps?
+    triple upkeep
+
 CapMod
 	60 points per army?
 		3 points per unit average
@@ -21,3 +24,11 @@ CapMod
 		T5 10
 
 Configurable via MCT.
+
+Screenshots:
+army tooltip
+army debuff
+garrison tooltip
+
+todo
+	garrison cost in top name button or individual settlements name buttons
