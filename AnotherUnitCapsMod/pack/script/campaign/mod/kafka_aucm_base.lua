@@ -52,7 +52,7 @@ end
 -- Calculates the hero count for the unit
 function aucm:getHeroCount(unit)
 	-- TODO check for free hero
-	if aucm:is_hero(unit:unit_key()) then
+	if aucm:isHero(unit:unit_key()) then
 		return 1;
 	end
 	return 0;
