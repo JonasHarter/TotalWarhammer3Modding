@@ -32,12 +32,16 @@ function aucm:enforceArmyCostLimitForCharacter(character)
 	local armyCqi = character:military_force():command_queue_index();
 	local armyLimit = aucm:getArmyLimit(character);
 	local armyCost = aucm:getArmyCost(character);
+	local armyCostOverLimit = armyCost > armyLimit
+	local armyHeroCount = aucm:getArmyHeroCount()
+	local armyHeroLimit = aucm:getConfigArmyLimitHeroCap()
+	local armyHeroOverLimit = armyHeroCount > armyHeroLimit
     local effectName = "kafka_army_cost_limit_penalty"
-	--if armyCost > armyLimit or aucm:get_army_hero_count(character) > aucm:getConfig("hero_cap") then
-	if armyCost > armyLimit then
+	if armyCostOverLimit or armyHeroOverLimit then
 		cm:apply_effect_bundle_to_force(effectName, armyCqi, 1);
 		return;
 	else
 		cm:remove_effect_bundle_from_force(effectName, armyCqi);
+		return;
 	end
 end

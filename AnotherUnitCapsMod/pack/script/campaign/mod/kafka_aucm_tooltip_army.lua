@@ -10,7 +10,7 @@ core:add_listener(
 	function(context)
 		local character = context:character();
 		cm:set_saved_value("aucm_last_selected_char_cqi", character:command_queue_index());
-		cm:callback(function()
+		cm:callback( function()
 			aucm:setArmyCostToolTip(character);
 		end, 0.1)
 	end,
@@ -39,10 +39,10 @@ core:add_listener(
 	end,
 	function(context)
 		cm:callback(function()
-      local savedCqi = cm:get_saved_value("aucm_last_selected_char_cqi")
-      if not savedCqi then
-        return
-      end
+			local savedCqi = cm:get_saved_value("aucm_last_selected_char_cqi")
+			if not savedCqi then
+				return
+			end
 			local lastSelectedCharacter = cm:get_character_by_cqi(cm:get_saved_value("aucm_last_selected_char_cqi"));
 			if not(lastSelectedCharacter and lastSelectedCharacter ~= "") then
 				return
@@ -61,7 +61,7 @@ core:add_listener(
 
 -- Shows the army cost in the army name tooltip
 function aucm:setArmyCostToolTip(character)
-	local zoom_component = find_uicomponent(core:get_ui_root(), "main_units_panel", "button_focus");
+  local zoom_component = find_uicomponent(core:get_ui_root(), "main_units_panel", "button_focus");
 	if not zoom_component then
 		return;
 	end
@@ -79,6 +79,7 @@ function aucm:setArmyCostToolTip(character)
 	end
 	zoom_component:SetTooltipText(tt_text, true);
 end
+
 
 --[[
     --when a unit is added to the recruitment queue, add its costs.

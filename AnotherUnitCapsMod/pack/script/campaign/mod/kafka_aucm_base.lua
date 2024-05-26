@@ -1,18 +1,31 @@
 local aucm = core:get_static_object("aucm");
 
-local config = {
-	army_limit_player = 50,
-	army_limit_ai_bonus = 10,
-	mpcost_per_point = 200,
-	hero_cap = 2,
-	upgrade_ai_armies = false,
-	upgrade_grace_period = 20
-};
-
--- Retrieves a value from the configuration
-function aucm:getConfig(config_key)
-	return config[config_key];
-end
+local exceptions = {
+	free_factions = {
+		"wh2_dlc10_def_blood_voyage"
+	},
+	free_heroes = {
+		"wh_dlc07_brt_cha_green_knight_0",
+		"wh_dlc06_dwf_cha_master_engineer_ghost_0",
+		"wh_dlc06_dwf_cha_runesmith_ghost_0",
+		"wh_dlc06_dwf_cha_thane_ghost_0",
+		"wh_dlc06_dwf_cha_thane_ghost_1"
+	},
+	free_military_force_types = {
+		"DISCIPLE_ARMY",
+		"OGRE_CAMP" --- NO?
+	},
+	free_military_force_effects = {
+		"wh2_dlc12_bundle_underempire_army_spawn" -- The Vermintide army
+	},
+	free_units = {
+		"wh_dlc07_brt_cha_green_knight_0"
+	},
+	custom_heroes = {
+		"wh2_dlc11_cst_inf_count_noctilus_0",
+		"wh2_dlc11_cst_inf_count_noctilus_1"
+	}
+}
 
 -- Calculates the cost for the unit
 function aucm:getUnitCost(unit)
@@ -30,7 +43,10 @@ end
 
 -- Calculates the cost via the base mp cost
 function aucm:calculateCost(cost)
-	return math.floor(cost / aucm:getConfig("mpcost_per_point"))
+	if cost == 0 then
+		return 0
+	end
+	return math.floor(cost / aucm:getConfigArmyLimitDivider())
 end
 
 -- Calculates the hero count for the unit
@@ -43,8 +59,8 @@ function aucm:getHeroCount(unit)
 end
 
 -- Check if unit is a hero
-function aucm:isHero(unit_key)
-	return string.find(unit_key, "_cha_")
+function aucm:isHero(unitKey)
+	return string.find(unitKey, "_cha_")
 end
 
 -- Calculates the cost of the units in the army
@@ -63,11 +79,10 @@ end
 -- Calculates the cost limit of the army
 function aucm:getArmyLimit(character)
 	local armyLimit;
-	armyLimit = aucm:getConfig("army_limit_player");
+	armyLimit = aucm:getConfigArmyLimit();
 	if not character:faction():is_human() then
-		armyLimit = armyLimit + aucm:getConfig("army_limit_ai_bonus");
+		armyLimit = armyLimit + aucm:getConfigArmyLimitAiAdjust();
 	end
-	-- TODO dynamic limit, faction leader bonus?
 	if armyLimit < 0 then
 		armyLimit = 0
 	end

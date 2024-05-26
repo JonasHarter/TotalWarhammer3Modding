@@ -15,3 +15,9 @@ function aucm:getTableKeys(tbl)
 	end
 	return keys;
 end
+
+function aucm:log(txt)
+	if aucm:getConfigEnableLogging() then
+		out("[kafka][aucm] " .. txt)
+	end
+end

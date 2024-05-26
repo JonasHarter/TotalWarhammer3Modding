@@ -35,5 +35,13 @@ todo
 	show unit cost somewhere in recruitmentScreen
 	show army cost somewhere in army screen
 	how stable is recruiting units cost?
-	ai auto replace
+	ai auto upgrade?
 	better wording for cost X armycost
+	check impact of diff army values on ai armires
+
+removed
+	unit tooltip
+	supplyline
+	ai upgrading (was not present anyway)
+	dynamic options
+	faction leader bonus
