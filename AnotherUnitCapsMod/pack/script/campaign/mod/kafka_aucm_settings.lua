@@ -3,8 +3,8 @@ local aucm = core:get_static_object("aucm")
 -- Default settings
 aucm.settings = {
 	army_limit_point_divider = 200,
-	army_limit_base = 50,
-	army_limit_ai_adjust = 10,
+	army_limit_base = 70,
+	army_limit_ai_adjust = 0,
 	army_limit_hero_cap = 2,
 	logging_enabled = false
 }

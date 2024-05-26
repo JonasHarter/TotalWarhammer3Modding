@@ -21,11 +21,11 @@ function aucm:setGarrisonCostTooltip(region)
 	end
 	local armyCqi = garrison_commander:military_force():command_queue_index()
 	cm:callback(function()
-		aucm:setGarrisonCostTooltipInternal(armyCqi)
+		aucm:setGarrisonCostTooltipInternal(region, armyCqi)
 	end, 0.1)
 end
 
-function aucm:setGarrisonCostTooltipInternal(cqi)
+function aucm:setGarrisonCostTooltipInternal(region, cqi)
 	if cqi == -1 then
 		return
 	end
@@ -34,7 +34,8 @@ function aucm:setGarrisonCostTooltipInternal(cqi)
 		return
 	end
 	local armyCost = aucm:getGarrisonCost(cqi)
-	local tt_text = "Garrison: " .. armyCost
+	local regionName = common.get_localised_string("regions_onscreen_" .. region:name())
+	local tt_text = regionName .. " Garrison: " .. armyCost
 	settlementInfoButton:SetTooltipText(tt_text, true)
 end
 

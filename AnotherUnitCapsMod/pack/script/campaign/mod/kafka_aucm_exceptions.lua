@@ -12,8 +12,7 @@ aucm.exceptions = {
 		"wh_dlc06_dwf_cha_thane_ghost_1"
 	},
 	free_military_force_types = {
-		"DISCIPLE_ARMY",
-		"OGRE_CAMP" --- NO?
+		"DISCIPLE_ARMY"
 	},
 	free_military_force_effects = {
 		"wh2_dlc12_bundle_underempire_army_spawn" -- The Vermintide army
