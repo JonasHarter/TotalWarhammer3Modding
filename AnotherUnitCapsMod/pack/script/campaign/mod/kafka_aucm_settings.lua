@@ -1,4 +1,4 @@
-local aucm = core:get_static_object("aucm");
+local aucm = core:get_static_object("aucm")
 
 -- Default settings
 aucm.settings = {
@@ -7,7 +7,7 @@ aucm.settings = {
 	army_limit_ai_adjust = 10,
 	army_limit_hero_cap = 2,
 	logging_enabled = false
-};
+}
 
 function aucm:getConfigArmyLimitDivider()
 	return self.settings.army_limit_point_divider
@@ -55,7 +55,7 @@ function aucm:updateSettings()
 	if not get_mct then
 		return
 	end
-	local mct = get_mct();
+	local mct = get_mct()
 	if not mct then
 		return
 	end

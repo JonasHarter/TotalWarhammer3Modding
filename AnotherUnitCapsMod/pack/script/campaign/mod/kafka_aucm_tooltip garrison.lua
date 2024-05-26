@@ -1,4 +1,4 @@
-local aucm = core:get_static_object("aucm");
+local aucm = core:get_static_object("aucm")
 
 -- Set garrison cost tooltip
 -- RegionSelected?
@@ -7,21 +7,21 @@ core:add_listener(
 	"SettlementSelected",
 	true,
 	function(context)
-		aucm:setGarrisonCostTooltip(context:garrison_residence():region());
+		aucm:setGarrisonCostTooltip(context:garrison_residence():region())
 	end,
-	true);
+	true)
 
 function aucm:setGarrisonCostTooltip(region)
 	if region:is_abandoned() then
 		return
 	end
-	local garrison_commander = cm:get_garrison_commander_of_region(region);
+	local garrison_commander = cm:get_garrison_commander_of_region(region)
 	if not garrison_commander then
 		return
 	end
-	local armyCqi = garrison_commander:military_force():command_queue_index();
+	local armyCqi = garrison_commander:military_force():command_queue_index()
 	cm:callback(function()
-		aucm:setGarrisonCostTooltipInternal(armyCqi);
+		aucm:setGarrisonCostTooltipInternal(armyCqi)
 	end, 0.1)
 end
 
@@ -29,11 +29,11 @@ function aucm:setGarrisonCostTooltipInternal(cqi)
 	if cqi == -1 then
 		return
 	end
-	local settlementInfoButton = find_uicomponent(core:get_ui_root(), "settlement_panel", "button_info");
+	local settlementInfoButton = find_uicomponent(core:get_ui_root(), "settlement_panel", "button_info")
 	if not settlementInfoButton then
-		return;
+		return
 	end
-	local armyCost = aucm:getGarrisonCost(cqi);
+	local armyCost = aucm:getGarrisonCost(cqi)
 	local tt_text = "Garrison: " .. armyCost
 	settlementInfoButton:SetTooltipText(tt_text, true)
 end

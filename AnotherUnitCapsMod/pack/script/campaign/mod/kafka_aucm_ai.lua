@@ -1,22 +1,25 @@
-local aucm = core:get_static_object("aucm");
+local aucm = core:get_static_object("aucm")
 
 core:add_listener(
 	"kafka_aucm_enforceArmyCostLimitForAiFaction",
 	"FactionTurnStart",
 	function(context)
-		return not context:faction():is_human();
+		return not context:faction():is_human()
 	end,
 	function(context)
-		aucm:enforceArmyCostLimitForAiFaction(context:faction());
+		local currentFaction = context:faction()
+		if aucm:isFreeFaction(currentFaction) then
+			return
+		end
+		aucm:enforceArmyCostLimitForAiFaction(currentFaction)
 	end,
 	true
-);
+)
 
 -- Enforces the army cost limits on an ai faction by replacing army units
 function aucm:enforceArmyCostLimitForAiFaction(faction)
-	-- TODO check if faction is excluded
 	-- Get all armies, that require adjustment
-	local charactersAll = faction:character_list();
+	local charactersAll = faction:character_list()
 	local charactersOverLimit = {}
 	for i = 0, charactersAll:num_items() - 1 do
 		local character = charactersAll:item_at(i)
@@ -31,7 +34,7 @@ function aucm:enforceArmyCostLimitForAiFaction(faction)
 	-- Fix the armies
 	local recruitmentPool = aucm:generateRecuitmentPool(faction)
 	for character, armyCostOverLimit in pairs(charactersOverLimit) do
-		aucm:enforceAmryCostLimitOnArmy(character, recruitmentPool, armyCostOverLimit);
+		aucm:enforceAmryCostLimitOnArmy(character, recruitmentPool, armyCostOverLimit)
 	end
 end
 
@@ -40,8 +43,9 @@ function aucm:getArmyCostOverLimit(character)
 	if not cm:char_is_mobile_general_with_army(character) then
 		return 0
 	end
-	local armyCostLimit = aucm:getArmyLimit(character);
-	local armyCost = aucm:getArmyCost(character);
+	-- TODO check for free army
+	local armyCostLimit = aucm:getArmyLimit(character)
+	local armyCost = aucm:getArmyCost(character)
 	-- Positive diff means overlimit
 	local armyCostDifference = armyCost - armyCostLimit
 	if armyCostDifference <= 0 then
@@ -56,7 +60,7 @@ function aucm:enforceAmryCostLimitOnArmy(character, recruitmentPool, savingsRequ
 	local unitList = character:military_force():unit_list()
 	local unitIndex = {}
 	for i = 1, unitList:num_items() - 1 do
-		table.insert(unitIndex, i);
+		table.insert(unitIndex, i)
 	end
 	unitIndex = shuffleTable(unitIndex)
 
@@ -67,7 +71,7 @@ function aucm:enforceAmryCostLimitOnArmy(character, recruitmentPool, savingsRequ
 		local downgradeUnitKey, reimbursement = aucm:getRandomDowngradeUnitKey(currentUnitKey, recruitmentPool)
 		if downgradeUnitKey then
 			aucm:replaceUnitForCharacter(currentUnitKey, downgradeUnitKey, character)
-			cm:treasury_mod(character:faction():name(), reimbursement);
+			cm:treasury_mod(character:faction():name(), reimbursement)
 			savingsReached = savingsReached + reimbursement
 		end
 		if savingsRequired <= savingsReached then
@@ -101,6 +105,6 @@ end
 -- Replaces a unit for a character, reimbursing the faction
 function aucm:replaceUnitForCharacter(oldUnitKey, newUnitKey, character)
 	local characterLookup = cm:char_lookup_str(character)
-	cm:remove_unit_from_character(characterLookup, oldUnitKey);
-	cm:grant_unit_to_character(characterLookup, newUnitKey);
+	cm:remove_unit_from_character(characterLookup, oldUnitKey)
+	cm:grant_unit_to_character(characterLookup, newUnitKey)
 end

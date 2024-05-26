@@ -86,6 +86,7 @@ function aucm:setArmyCostToolTip(character)
 	zoom_component:SetTooltipText(tt_text, true)
 end
 
+-- Sets the breakdown tooltip to the army info button
 function aucm:setUnitCostBreakdownTooltip(character)
 	local infoButton = find_uicomponent(core:get_ui_root(), "units_panel", "main_units_panel", "tr_element_list", "button_info_holder", "button_info")
 	if not infoButton then
@@ -102,6 +103,7 @@ function aucm:setUnitCostBreakdownTooltip(character)
 	infoButton:SetTooltipText(aucm:getUnitListCostTooltip(unitCosts), true)
 end
 
+-- Creates a tooltip with the unit types in the army and their cost
 function aucm:getUnitListCostTooltip(unitCosts)
 	local tt_text = "Unit costs breakdown:\n"
 	local unitCostsKeys = aucm:getTableKeys(unitCosts)
