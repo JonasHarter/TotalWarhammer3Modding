@@ -1,7 +1,7 @@
 local aucm = core:get_static_object("aucm");
 
 core:add_listener(
-    "kafka_aucm_enforceArmyCostLimitForFaction",
+    "kafka_aucm_enforceArmyCostLimitForPlayerFaction",
     "FactionTurnStart",
     function(context)
         return context:faction():is_human()

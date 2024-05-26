@@ -68,6 +68,9 @@ function aucm:getArmyLimit(character)
 		armyLimit = armyLimit + aucm:getConfig("army_limit_ai_bonus");
 	end
 	-- TODO dynamic limit, faction leader bonus?
+	if armyLimit < 0 then
+		armyLimit = 0
+	end
 	return armyLimit;
 end
 
