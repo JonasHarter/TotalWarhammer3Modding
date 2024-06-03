@@ -4,7 +4,8 @@ local gaur = core:get_static_object("gaur")
 gaur.settings = {
 	upper_bound = 80,
 	step_size_increase = 10,
-	apply_to_ai = false
+	apply_to_ai = false,
+	debug_internal = false
 }
 
 -- Load setting from mct when available
