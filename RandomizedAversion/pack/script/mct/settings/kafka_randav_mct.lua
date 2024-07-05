@@ -10,7 +10,7 @@ local mct_mod = mct:register_mod("kafka_randomized_aversion")
 
 mct_mod:set_title("Randomized aversion", false);
 mct_mod:set_author("Kafka");
-mct_mod:set_description("Randomized all aversion between factions by applying an additional modifer to the starting aversion.", false);
+mct_mod:set_description("Randomized all aversion between factions by applying an additional modifer to the start of the game.", false);
 
 local option_lower_bound = mct_mod:add_new_option("lower_bound", "slider");
 option_lower_bound:set_text("Lower bound");
