@@ -38,6 +38,7 @@ todo
 	ai auto upgrade?
 	better wording for cost X armycost
 	check impact of diff army values on ai armires
+	hero count -1
 
 removed
 	unit tooltip

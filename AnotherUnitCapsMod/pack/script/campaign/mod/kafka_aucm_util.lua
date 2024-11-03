@@ -16,8 +16,15 @@ function aucm:getTableKeys(tbl)
 	return keys
 end
 
-function aucm:log(txt)
-	if aucm:getConfigEnableLogging() then
-		out("[kafka][aucm] " .. txt)
+function aucm:log(str)
+    if not aucm:getConfigEnableLogging() then
+        return
+    end
+	local logFile = io.open("kafka.txt", "a")
+	if (logFile == nil) then
+		return
 	end
+	logFile:write("[aucm] " .. str .. "\n");
+	logFile:flush();
+	logFile:close();
 end

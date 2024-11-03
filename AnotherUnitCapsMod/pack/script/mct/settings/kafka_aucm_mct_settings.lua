@@ -9,13 +9,13 @@ end
 local mct_mod = mct:register_mod("kafka_another_unit_caps_mod")
 
 mct_mod:set_title("Cost-based Army Caps", false)
-mct_mod:set_author("Kafka, Wolfy & Jadawin")
-mct_mod:set_description("Cost limit for all armies", false)
+mct_mod:set_author("Kafka. Original by Wolfy & Jadawin")
+mct_mod:set_description("Cost limit for all armies based on the units' cost", false)
 
 mct_mod:add_new_section("aucm_base", "Base Options", false)
 
 local option_cbac_army_limit_player = mct_mod:add_new_option("army_limit_point_divider", "slider")
-option_cbac_army_limit_player:set_text("Army limit")
+option_cbac_army_limit_player:set_text("Point Divider")
 option_cbac_army_limit_player:set_tooltip_text("The amount the mp-cost of the units get divided by to reach the actual point value (rounded up).\n" .. "[[col:yellow]]" ..
 				                                               "All other options have to be adjusted manually with this value in mind.\n" ..
 				                                               "An army limit of 50 with a divider of 200 equals a limit of 10000 with a divider of 1." .. "[[/col]]")
