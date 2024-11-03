@@ -44,7 +44,7 @@ core:add_listener(
 			if not savedCqi then
 				return
 			end
-			local lastSelectedCharacter = cm:get_character_by_cqi(cm:get_saved_value("aucm_last_selected_char_cqi"))
+			local lastSelectedCharacter = cm:get_character_by_cqi(savedCqi)
 			if not(lastSelectedCharacter and lastSelectedCharacter ~= "") then
 				return
 			end

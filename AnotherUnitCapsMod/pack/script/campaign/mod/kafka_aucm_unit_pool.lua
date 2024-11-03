@@ -10,33 +10,51 @@ core:add_listener(
 	"FactionTurnStart",
 	true,
 	function(context)
+		local turnNumber = cm:turn_number()
 		local faction = context:faction()
 		if not faction:is_human() then
 			return
 		end
-		aucm:generateUnitPool(faction)
-		aucm.unitPools[faction] = unitPool
+		aucm:getUnitPool(faction)
 	end,
 	true
 )
 
+function aucm:getUnitPoolX(faction)
+	return aucm.unitPools[faction:name()]
+end
+
+function aucm:setUnitPoolX(faction, unitPool)
+	aucm.unitPools[faction:name()] = unitPool
+end
+
+function aucm:getUnitPoolTurnX(faction)
+	return aucm.unitPoolsTurn[faction:name()]
+end
+
+function aucm:setUnitPoolTurnX(faction, unitPoolsTurn)
+	aucm.unitPoolsTurn[faction:name()] = unitPoolsTurn
+end
+
 -- Returns the unit pool for the given faction. Recreates it if its to old.
 function aucm:getUnitPool(faction)
-	local unitPool = aucm.unitPools[faction]
+	local unitPool = aucm:getUnitPoolX(faction)
 	if not unitPool then
 		aucm:generateUnitPool(faction)
 	end
 	-- Regenerate if from last round
-	local unitPoolTurn = aucm.unitPoolsTurn[faction]
-	if not unitPoolTurn then
-		unitPoolTurn = 0
-	end
 	local turnNumber = cm:turn_number()
+	local unitPoolTurn = aucm:getUnitPoolTurnX(faction)
+	if not unitPoolTurn then
+		unitPoolTurn = turnNumber
+	end
+	aucm:log(tostring(turnNumber))
+	aucm:log(tostring(unitPoolTurn))
 	if turnNumber - unitPoolTurn >= 1 then
 		aucm:generateUnitPool(faction)
 	end
 	-- return
-	return aucm.unitPools[faction]
+	return aucm:getUnitPoolX(faction)
 end
 
 -- Generates the unit pool for that faction
@@ -44,8 +62,8 @@ function aucm:generateUnitPool(faction)
 	aucm:log("Generating unitPool for " .. tostring(faction:name()))
 	local unitPool = aucm:generateUnitPoolInternal(faction)
 	local turnNumber = cm:turn_number()
-	aucm.unitPools[faction] = unitPool
-	aucm.unitPoolsTurn[faction] = turnNumberlocal
+	aucm:setUnitPoolX(faction, unitPool)
+	aucm:setUnitPoolTurnX(faction, turnNumber)
 end
 
 function aucm:generateUnitPoolInternal(faction)
