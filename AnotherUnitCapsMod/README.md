@@ -39,6 +39,10 @@ todo
 	better wording for cost X armycost
 	check impact of diff army values on ai armires
 	hero count -1
+	chache recruitmentpool and recreate only every x turns
+
+Ideas
+	Soft limit with increasing penalties
 
 removed
 	unit tooltip

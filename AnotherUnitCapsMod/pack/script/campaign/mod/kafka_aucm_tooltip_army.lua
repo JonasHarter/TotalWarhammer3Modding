@@ -63,7 +63,10 @@ core:add_listener(
 
 -- Shows the army cost in the army name tooltip
 function aucm:setArmyCostToolTip(character)
-  local zoom_component = find_uicomponent(core:get_ui_root(), "main_units_panel", "button_focus")
+	if not aucm:getConfigGuiArmyCost() then
+		return
+	end
+    local zoom_component = find_uicomponent(core:get_ui_root(), "main_units_panel", "button_focus")
 	if not zoom_component then
 		return
 	end
@@ -72,11 +75,14 @@ function aucm:setArmyCostToolTip(character)
 	if character:has_military_force() then
 		local armyCost = aucm:getArmyCost(character)
 		local armyLimit = aucm:getArmyLimit(character)
-		local armyQueueCost = aucm:getArmyQueuedUnitsCost()
-		tt_text = "Current Cost: " .. armyCost .. "/" .. armyLimit
-		tt_text = tt_text .. "\n"
+		local armyQueueCost = 0
+		if aucm:getConfigGuiArmyCostRecruiting() then
+			armyQueueCost = aucm:getArmyQueuedUnitsCost()
+		end
+		tt_text = "Army value overview:\n"
+		tt_text = tt_text .. "Current cost: " .. armyCost .. "/" .. armyLimit .. "\n"
 		if armyQueueCost > 0 then
-			tt_text = tt_text .. "Expected Cost: " .. (armyCost + armyQueueCost) .. "/" .. armyLimit
+			tt_text = tt_text .. "Expected cost: " .. (armyCost + armyQueueCost) .. "/" .. armyLimit
 			tt_text = tt_text .. "\n"
 		end
 		local armyHeroCount = aucm:getArmyHeroCount(character)
@@ -88,6 +94,9 @@ end
 
 -- Sets the breakdown tooltip to the army info button
 function aucm:setUnitCostBreakdownTooltip(character)
+	if not aucm:getConfigGuiArmyBreakdown() then
+		return
+	end
 	local infoButton = find_uicomponent(core:get_ui_root(), "units_panel", "main_units_panel", "tr_element_list", "button_info_holder", "button_info")
 	if not infoButton then
 		return
@@ -105,7 +114,7 @@ end
 
 -- Creates a tooltip with the unit types in the army and their cost
 function aucm:getUnitListCostTooltip(unitCosts)
-	local tt_text = "Unit costs breakdown:\n"
+	local tt_text = "Unit value breakdown:\n"
 	local unitCostsKeys = aucm:getTableKeys(unitCosts)
 	table.sort(unitCostsKeys, function(keyLhs, keyRhs)
 		return unitCosts[keyLhs] < unitCosts[keyRhs]

@@ -71,6 +71,7 @@ function aucm:enforceAmryCostLimitOnArmy(character, recruitmentPool, savingsRequ
 		local downgradeUnitKey, reimbursement = aucm:getRandomDowngradeUnitKey(currentUnitKey, recruitmentPool)
 		if downgradeUnitKey then
 			aucm:replaceUnitForCharacter(currentUnitKey, downgradeUnitKey, character)
+			-- TODO reimburses divided value, no actual gold cost
 			cm:treasury_mod(character:faction():name(), reimbursement)
 			savingsReached = savingsReached + reimbursement
 		end

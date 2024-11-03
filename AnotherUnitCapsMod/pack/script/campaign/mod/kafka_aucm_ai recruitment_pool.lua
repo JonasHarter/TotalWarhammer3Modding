@@ -1,12 +1,11 @@
 local aucm = core:get_static_object("aucm")
 
--- Generates a list, with all unit types, the faction currently possesses
+-- Generates a list, with all unit types, the faction currently possesses in armies or garrisons
 function aucm:generateRecuitmentPool(faction)
 	local recruitmentPool = {}
 	local characters = faction:character_list()
 	for i = 0, characters:num_items() - 1 do
 		local character = characters:item_at(i)
-		-- Armies and garrisons
 		if cm:char_is_general_with_army(character) then
 			aucm:addUnitsToRecruitmentPool(character:military_force():unit_list(), recruitmentPool)
 		end

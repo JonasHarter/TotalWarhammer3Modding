@@ -12,6 +12,9 @@ core:add_listener(
 	true)
 
 function aucm:setGarrisonCostTooltip(region)
+	if not aucm:getConfigGuiGarrison() then
+		return
+	end
 	if region:is_abandoned() then
 		return
 	end
@@ -35,7 +38,8 @@ function aucm:setGarrisonCostTooltipInternal(region, cqi)
 	end
 	local armyCost = aucm:getGarrisonCost(cqi)
 	local regionName = common.get_localised_string("regions_onscreen_" .. region:name())
-	local tt_text = regionName .. " Garrison: " .. armyCost
+	local tt_text = regionName .. " garrison value overview:\n"
+	local tt_text = tt_text .. "Current value: " .. armyCost
 	settlementInfoButton:SetTooltipText(tt_text, true)
 end
 
