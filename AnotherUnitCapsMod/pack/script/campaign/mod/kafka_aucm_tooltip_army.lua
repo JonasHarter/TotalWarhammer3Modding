@@ -79,10 +79,10 @@ function aucm:setArmyCostToolTip(character)
 		if aucm:getConfigGuiArmyCostRecruiting() then
 			armyQueueCost = aucm:getArmyQueuedUnitsCost()
 		end
-		tt_text = "Army value overview:\n"
-		tt_text = tt_text .. "Current cost: " .. armyCost .. "/" .. armyLimit .. "\n"
+		tt_text = "Army unit value summary:\n"
+		tt_text = tt_text .. "Current value: " .. armyCost .. "/" .. armyLimit .. "\n"
 		if armyQueueCost > 0 then
-			tt_text = tt_text .. "Expected cost: " .. (armyCost + armyQueueCost) .. "/" .. armyLimit
+			tt_text = tt_text .. "Expected value: " .. (armyCost + armyQueueCost) .. "/" .. armyLimit
 			tt_text = tt_text .. "\n"
 		end
 		local armyHeroCount = aucm:getArmyHeroCount(character)
@@ -101,20 +101,18 @@ function aucm:setUnitCostBreakdownTooltip(character)
 	if not infoButton then
 		return
 	end
-
-	local unitCosts = {}
-	local unitList = character:military_force():unit_list()
-	for i = 0, unitList:num_items() - 1 do
-		local unit = unitList:item_at(i)
-		unitCosts[unit:unit_key()] = aucm:getUnitCost(unit)
+	local faction = character:faction()
+	if not faction:is_human() then
+		infoButton:SetTooltipText("Help", true)
+		return
 	end
-
-	infoButton:SetTooltipText(aucm:getUnitListCostTooltip(unitCosts), true)
+	local unitPool = aucm:getUnitPool(faction)
+	infoButton:SetTooltipText(aucm:getUnitListCostTooltip(unitPool), true)
 end
 
 -- Creates a tooltip with the unit types in the army and their cost
 function aucm:getUnitListCostTooltip(unitCosts)
-	local tt_text = "Unit value breakdown:\n"
+	local tt_text = "Faction unit value overview:\n"
 	local unitCostsKeys = aucm:getTableKeys(unitCosts)
 	table.sort(unitCostsKeys, function(keyLhs, keyRhs)
 		return unitCosts[keyLhs] < unitCosts[keyRhs]

@@ -32,7 +32,7 @@ function aucm:enforceArmyCostLimitForAiFaction(faction)
 		return
 	end
 	-- Fix the armies
-	local recruitmentPool = aucm:generateRecuitmentPool(faction)
+	local recruitmentPool = aucm:getUnitPool(faction)
 	for character, armyCostOverLimit in pairs(charactersOverLimit) do
 		aucm:enforceAmryCostLimitOnArmy(character, recruitmentPool, armyCostOverLimit)
 	end
