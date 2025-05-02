@@ -24,7 +24,7 @@ function rfpo:apply()
 	local factionList = cm:model():world():faction_list()
 	for factionIndex = 0, factionList:num_items() - 1 do
 		local faction = factionList:item_at(factionIndex)
-		if not faction:is_human() then
+		if (faction:is_human() and rfpo.settings.apply_player) or (not faction:is_human() and rfpo.settings.apply_ai) then
 			local factionName = faction:name()
 			for i = 1, #rfpo.ror do
 				local unitName = rfpo.ror[i]
@@ -32,5 +32,6 @@ function rfpo:apply()
 			end
 		end
 	end
+	cm:set_saved_value(rfpo.applied_key, true);
 	rfpo:log("Done")
 end
