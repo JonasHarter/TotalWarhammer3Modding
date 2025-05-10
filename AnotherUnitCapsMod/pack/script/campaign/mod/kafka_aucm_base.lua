@@ -59,7 +59,7 @@ end
 
 -- Calculates the cost limit of the army
 function aucm:getArmyLimit(character)
-	local armyLimit
+	local armyLimit = 0
 	armyLimit = aucm:getConfigArmyLimit()
 	if not character:faction():is_human() then
 		armyLimit = armyLimit + aucm:getConfigArmyLimitAiAdjust()
@@ -101,7 +101,7 @@ function aucm:getArmyQueuedUnitsCost()
 	-- Fetches all the data from the ui
 	local army = find_uicomponent_from_table(core:get_ui_root(), {"units_panel", "main_units_panel", "units"})
 	if not army then
-		return
+		return 0
 	end
 
 	local queuedUnitsCost = 0

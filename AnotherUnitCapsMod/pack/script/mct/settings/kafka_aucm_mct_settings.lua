@@ -47,19 +47,24 @@ option_hero_cap:set_default_value(2)
 
 mct_mod:add_new_section("aucm_advanced", "Advanced Options", false)
 
-local option_gui_army_cost = mct_mod:add_new_option("gui_army_cost", "checkbox")
-option_gui_army_cost:set_text("Army value tooltip")
-option_gui_army_cost:set_tooltip_text("Show the army's value in the gui by hovering the name of the army")
-option_gui_army_cost:set_default_value(true)
+local option_gui_army_cost_tooltip = mct_mod:add_new_option("gui_army_cost_tooltip", "checkbox")
+option_gui_army_cost_tooltip:set_text("Army value tooltip")
+option_gui_army_cost_tooltip:set_tooltip_text("Show the army's value in the gui by hovering the name of the army")
+option_gui_army_cost_tooltip:set_default_value(false)
+
+local option_gui_army_cost_counter = mct_mod:add_new_option("gui_army_cost_counter", "checkbox")
+option_gui_army_cost_counter:set_text("Army value counter")
+option_gui_army_cost_counter:set_tooltip_text("Show the army's value in the gui beside the upkeep counter")
+option_gui_army_cost_counter:set_default_value(true)
 
 local option_gui_army_recruiting = mct_mod:add_new_option("gui_army_cost_recruiting", "checkbox")
-option_gui_army_recruiting:set_text("Army value tooltip plus recruiting")
-option_gui_army_recruiting:set_tooltip_text("Extends the tooltip for the army's value by the value of the units it is currently recruiting.")
+option_gui_army_recruiting:set_text("Recruiting values")
+option_gui_army_recruiting:set_tooltip_text("Extends the tooltips for the army's value by the value of the units it is currently recruiting.")
 option_gui_army_recruiting:set_default_value(true)
 
 local option_gui_army_breakdown = mct_mod:add_new_option("gui_army_breakdown", "checkbox")
 option_gui_army_breakdown:set_text("Army value breakdown tooltip")
-option_gui_army_breakdown:set_tooltip_text("Show a breakdown of the army's units in the gui by hovering the info button in the top right of the army panel.")
+option_gui_army_breakdown:set_tooltip_text("Show a breakdown of the faction's units in the gui by hovering the info button in the top right of the army panel. Player only.")
 option_gui_army_breakdown:set_default_value(true)
 
 local option_gui_garrison = mct_mod:add_new_option("gui_garrison", "checkbox")

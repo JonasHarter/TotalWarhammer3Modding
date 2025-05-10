@@ -6,7 +6,8 @@ aucm.settings = {
 	army_limit_base = 70,
 	army_limit_ai_adjust = 0,
 	army_limit_hero_cap = 2,
-	gui_army_cost = true,
+	gui_army_cost_tooltip = true,
+	gui_army_cost_counter = true,
 	gui_army_cost_recruiting = true,
 	gui_army_breakdown = true,
 	gui_garrison = true,
@@ -29,8 +30,12 @@ function aucm:getConfigArmyLimitHeroCap()
 	return self.settings.army_limit_hero_cap
 end
 
-function aucm:getConfigGuiArmyCost()
-	return self.settings.gui_army_cost
+function aucm:getConfigGuiArmyCostTooltip()
+	return self.settings.gui_army_cost_tooltip
+end
+
+function aucm:getConfigGuiArmyCostCounter()
+	return self.settings.gui_army_cost_counter
 end
 
 function aucm:getConfigGuiArmyCostRecruiting()
@@ -84,9 +89,12 @@ function aucm:updateSettings()
 	aucm.settings.army_limit_base = my_mod:get_option_by_key("army_limit_base"):get_finalized_setting()
 	aucm.settings.army_limit_ai_adjust = my_mod:get_option_by_key("army_limit_ai_adjust"):get_finalized_setting()
 	aucm.settings.army_limit_hero_cap = my_mod:get_option_by_key("army_limit_hero_cap"):get_finalized_setting()
-	aucm.settings.gui_army_cost = my_mod:get_option_by_key("gui_army_cost"):get_finalized_setting()
+
+	aucm.settings.gui_army_cost_tooltip = my_mod:get_option_by_key("gui_army_cost_tooltip"):get_finalized_setting()
+	aucm.settings.gui_army_cost_counter = my_mod:get_option_by_key("gui_army_cost_counter"):get_finalized_setting()
 	aucm.settings.gui_army_cost_recruiting = my_mod:get_option_by_key("gui_army_cost_recruiting"):get_finalized_setting()
 	aucm.settings.gui_army_breakdown = my_mod:get_option_by_key("gui_army_breakdown"):get_finalized_setting()
 	aucm.settings.gui_garrison = my_mod:get_option_by_key("gui_garrison"):get_finalized_setting()
+
 	aucm.settings.enable_logging = my_mod:get_option_by_key("logging_enabled"):get_finalized_setting()
 end
