@@ -3,7 +3,7 @@ local wbfs = core:get_static_object("kafka_wbfs")
 -- Default settings
 wbfs.settings = {
 	apply_to_player = true,
-	apply_to_ai = true,
+	apply_to_ai = false,
 	breaches_base_count = 3,
 	breaches_turn_count = 3,
 	logging_enabled = false

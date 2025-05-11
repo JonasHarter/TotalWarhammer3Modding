@@ -20,7 +20,7 @@ option_apply_to_player:set_default_value(true);
 local option_apply_to_ai = mct_mod:add_new_option("apply_to_ai", "checkbox");
 option_apply_to_ai:set_text("Applies to ai");
 option_apply_to_ai:set_tooltip_text("Create breaches for attacking ai players.");
-option_apply_to_ai:set_default_value(true);
+option_apply_to_ai:set_default_value(false);
 
 local option_breaches_base_count = mct_mod:add_new_option("breaches_base_count", "slider");
 option_breaches_base_count:set_text("Initial Breaches");
