@@ -3,8 +3,9 @@ local wbfs = core:get_static_object("kafka_wbfs")
 -- Default settings
 wbfs.settings = {
 	apply_to_player = true,
-	apply_to_ai = false,
-	breaches_count = 6,
+	apply_to_ai = true,
+	breaches_base_count = 3,
+	breaches_turn_count = 3,
 	logging_enabled = false
 }
 
@@ -16,8 +17,12 @@ function wbfs:getConfigApplyToAi()
 	return wbfs.settings.apply_to_ai
 end
 
-function wbfs:getConfigBreachesCount()
-	return wbfs.settings.breaches_count
+function wbfs:getConfigBreachesBaseCount()
+	return wbfs.settings.breaches_base_count
+end
+
+function wbfs:getConfigBreachesTurnCount()
+	return wbfs.settings.breaches_turn_count
 end
 
 function wbfs:getConfigEnableLogging()
@@ -37,11 +42,14 @@ function wbfs:updateSettings()
 	local apply_to_player_setting = option_apply_to_player:get_finalized_setting()
 	local option_apply_to_ai = my_mod:get_option_by_key("apply_to_ai")
 	local apply_to_ai_setting = option_apply_to_ai:get_finalized_setting()
-	local option_breaches_count = my_mod:get_option_by_key("breaches_count")
-	local breaches_count_setting = option_breaches_count:get_finalized_setting()
+	local option_breaches_base_count = my_mod:get_option_by_key("breaches_base_count")
+	local breaches_base_count_setting = option_breaches_base_count:get_finalized_setting()
+	local option_breaches_turn_count = my_mod:get_option_by_key("breaches_turn_count")
+	local breaches_turn_count_setting = option_breaches_turn_count:get_finalized_setting()
 	wbfs.settings.apply_to_player = apply_to_player_setting
 	wbfs.settings.apply_to_ai = apply_to_ai_setting
-	wbfs.settings.breaches_count = breaches_count_setting
+	wbfs.settings.breaches_base_count = breaches_base_count_setting
+	wbfs.settings.breaches_turn_count = breaches_turn_count_setting
 end
 
 -- Load setting from mct when available
